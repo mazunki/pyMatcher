@@ -9,27 +9,32 @@ BG_SCHEME = {
 	"positive_traits": "green",
 	"negative_traits": "orange"
 }
+FRAME_WIDTH = 400
+FRAME_HEIGHT = 800
 
 class Learning_Game(tk.Frame):
 	def __init__(self, master):
-		super().__init__(master, width=400, height=800, bg=BG_SCHEME["positive_traits"])
+		super().__init__(master, width=FRAME_WIDTH, height=FRAME_HEIGHT, bg=BG_SCHEME["positive_traits"])
 		self.master = master
 		self.streak = 0
 		self.do_or_do_not = tk.StringVar()
+		self.grid_propagate(0)
 
 		###
 		#	progress bar for streak
 		###
+
+		self.score_label = tk.Label(self, text="Score:", bg=self["bg"], font=("Verdana", 18, "bold"))
+		self.score_label.place(relx=0.2, rely=0.05, anchor="w")
 		
+		self.points_tracker = tk.Label(self, textvariable=master.points, bg=self["bg"], font=("Verdana", 18, "bold"))
+		self.points_tracker.place(relx=0.8, rely=0.05, anchor="e")
+
 		self.progress_holder = tk.Frame(self, width=PROGRESS_BAR_WIDTH, height=30, bg=self["bg"], highlightthickness=1, highlightbackground="gray")
-		self.progress_holder.place(relx=0.5, rely=0.05, anchor="c")
+		self.progress_holder.place(relx=0.5, rely=0.1, anchor="c")
 
-		self.progress_bar = tk.Frame(self.progress_holder, width=0, height=30, bg=self.progress_holder["bg"])
+		self.progress_bar = tk.Frame(self.progress_holder, width=0, height=30, bg=self.progress_holder["bg"], highlightthickness=1)
 		self.progress_bar.place(relx=0.5, rely=0.5, anchor="c")
-
-
-		self.points_tracker = tk.Label(self, textvariable=master.points, bg=self["bg"])
-		self.points_tracker.place(relx=0.5, rely=0.1)
 
 		self.do_or_dont = tk.Label(self, textvariable=self.do_or_do_not, bg=self["bg"], font=("Courier", 18, "bold"))
 		self.do_or_dont.place(relx=0.5, rely=0.8, anchor="c")
@@ -92,6 +97,7 @@ class Learning_Game(tk.Frame):
 		self.progress_holder["bg"] = BG_SCHEME[self.pos_or_neg]
 		self.do_or_do_not.set(["I DO" if self.pos_or_neg == "positive_traits" else "I DON'T"][0])
 		self.do_or_dont["bg"] = BG_SCHEME[self.pos_or_neg]
+		self.score_label["bg"] = BG_SCHEME[self.pos_or_neg]
 
 
 		##
